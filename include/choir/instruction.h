@@ -1,0 +1,39 @@
+#ifndef CHOIR_INSTRUCTION_H_
+#define CHOIR_INSTRUCTION_H_
+
+#include <choir/extern_c.h>
+#include <choir/types.h>
+
+CHOIR_EXTERN_C_BEGIN
+
+void choir_instruction_delete(choir_instruction_ref instruction);
+const char* choir_instruction_print_to_string(choir_instruction_ref instruction, ssize_t* string_length);
+choir_opcode choir_instruction_opcode_get(choir_instruction_ref instruction);
+const char* choir_instruction_name_get(choir_instruction_ref instruction, ssize_t* instruction_name_length);
+void choir_instruction_name_set(choir_instruction_ref instruction, const char* instruction_name, ssize_t instruction_name_length);
+int32_t choir_instruction_result_count_get(choir_instruction_ref instruction);
+choir_value_ref choir_instruction_result_value_get(choir_instruction_ref instruction, int32_t result_index);
+choir_int_predicate choir_instruction_int_predicate_get(choir_instruction_ref instruction);
+choir_block_ref choir_instruction_parent_get(choir_instruction_ref instruction);
+void choir_instruction_remove(choir_instruction_ref instruction);
+bool choir_instruction_is_terminator(choir_instruction_ref instruction);
+ssize_t choir_instruction_call_argument_count_get(choir_instruction_ref instruction_call);
+choir_value_ref choir_instruction_call_argument_get_at_index(choir_instruction_ref instruction_call, ssize_t argument_index);
+void choir_instruction_call_arguments_get(choir_instruction_ref instruction_call, choir_value_ref* arguments, ssize_t arguments_count);
+choir_calling_convention choir_instruction_call_calling_convention_get(choir_instruction_ref instruction_call);
+void choir_instruction_call_calling_convention_set(choir_instruction_ref instruction_call, choir_calling_convention calling_convention);
+choir_value_ref choir_instruction_call_callee_get(choir_instruction_ref instruction_call);
+choir_type_ref choir_instruction_call_callee_type_get(choir_instruction_ref instruction_call);
+bool choir_instruction_call_is_tail_call(choir_instruction_ref instruction_call);
+void choir_instruction_call_is_tail_call_set(choir_instruction_ref instruction_call, bool is_tail_call);
+choir_tail_call_kind choir_instruction_call_tail_call_kind_get(choir_instruction_ref instruction_call);
+void choir_instruction_call_tail_call_kind_set(choir_instruction_ref instruction_call, choir_tail_call_kind tail_call_kind);
+choir_value_ref choir_instruction_branch_condition_get(choir_instruction_ref instruction_branch);
+void choir_instruction_branch_condition_set(choir_instruction_ref instruction_branch, choir_value_ref condition_value);
+ssize_t choir_instruction_jump_successor_count(choir_instruction_ref instruction_jump);
+choir_block_ref choir_instruction_jump_successor_get_at_index(choir_instruction_ref instruction_jump, ssize_t successor_index);
+void choir_instruction_jump_successor_set(choir_instruction_ref instruction_jump, ssize_t successor_index, choir_block_ref successor_block);
+
+CHOIR_EXTERN_C_END
+
+#endif /* CHOIR_INSTRUCTION_H_ */
