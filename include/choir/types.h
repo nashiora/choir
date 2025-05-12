@@ -29,11 +29,12 @@ typedef struct choir_opaque_builder* choir_builder_ref;
 typedef struct choir_opaque_attribute* choir_attribute_ref;
 
 typedef enum choir_diagnostic_level {
+    CHOIR_DIAG_IGNORED,
     CHOIR_INFO,
     CHOIR_REMARK,
     CHOIR_WARNING,
     CHOIR_ERROR,
-    CHOIR_FATRAL,
+    CHOIR_FATAL,
 } choir_diagnostic_level;
 
 typedef enum choir_opcode {

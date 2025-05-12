@@ -7,6 +7,7 @@
 #include <choir/block.h>
 #include <choir/builder.h>
 #include <choir/context.h>
+#include <choir/diag.h>
 #include <choir/instruction.h>
 #include <choir/intrinsic.h>
 #include <choir/module.h>

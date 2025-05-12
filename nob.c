@@ -84,6 +84,9 @@
 #define NOB_IMPLEMENTATION
 #include "nob.h"
 
+#define nob_try(Result, Expr) do { if (!(Expr)) nob_return_defer(Result); } while (0)
+#define nob_try_int(Result, Expr) do { if (0 != (Expr)) nob_return_defer(Result); } while (0)
+
 static Nob_String_View nob_sv_file_name(Nob_String_View path) {
     size_t begin = path.count - 1;
     while (begin > 0) {
@@ -249,8 +252,43 @@ defer:;
     return result;
 }
 
+static bool clean(bool commit) {
+    bool result = true;
+
+    Nob_File_Paths artifacts = {0};
+    nob_try(false, nob_read_entire_dir_recursive(".build", &artifacts));
+
+    for (size_t i = 0; i < artifacts.count; i++) {
+        const char* artifact_path = artifacts.items[i];
+        if (commit) {
+            nob_log(NOB_INFO, "Removing '%s'.", artifact_path);
+            remove(artifact_path);
+        } else {
+            nob_log(NOB_INFO, "Would remove '%s'.", artifact_path);
+        }
+    }
+
+    if (commit) {
+        nob_log(NOB_INFO, "Removing '.build'.");
+        remove(".build/");
+    } else {
+        nob_log(NOB_INFO, "Would remove '.build'.");
+    }
+
+    nob_log(NOB_INFO, "Use 'nob clean commit' to commit to removing these files.");
+
+defer:;
+    return result;
+}
+
 int main(int argc, char** argv) {
     NOB_GO_REBUILD_URSELF(argc, argv);
+
+    // handle clean first, separately
+    if (argc >= 2 && 0 == strcmp("clean", argv[1])) {
+        bool commit = argc >= 3 && 0 == strcmp("commit", argv[2]);
+        return clean(commit) ? 0 : 1;
+    }
 
     int result = 0;
 
