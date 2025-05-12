@@ -1,5 +1,5 @@
-#ifndef CHOIR_CORE_H_
-#define CHOIR_CORE_H_
+#ifndef CHOIR_SOURCE_H_
+#define CHOIR_SOURCE_H_
 
 #include <choir/extern_c.h>
 #include <choir/types.h>
@@ -28,6 +28,15 @@ const char* choir_source_text_get(choir_source_ref source, ssize_t* text_length)
 /// @return True if the byte position is within the range of the source text; false otherwise.
 bool choir_source_seek(choir_source_ref source, ssize_t byte_position, ssize_t* line_begin, ssize_t* line_end, int64_t* line_number, int64_t* column_number);
 
+/// @brief Create a Choir source from the contents of a file.
+/// @param file_path_length The length of the @c file_path string, or 0 if the string is NUL-terminated.
+choir_source_ref choir_source_read_from_file(choir_context_ref context, const char* file_path, ssize_t file_path_length);
+
+/// @brief Create a Choir source from the given name and text.
+/// @param name_length The length of the @c name string, or 0 if the string is NUL-terminated.
+/// @param text_length The length of the @c text string, or 0 if the string is NUL-terminated.
+choir_source_ref choir_source_create(choir_context_ref context, const char* name, ssize_t name_length, const char* text, ssize_t text_length);
+
 CHOIR_EXTERN_C_END
 
-#endif /* CHOIR_CORE_H_ */
+#endif /* CHOIR_SOURCE_H_ */

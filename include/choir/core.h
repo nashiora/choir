@@ -11,6 +11,7 @@
 #include <choir/instruction.h>
 #include <choir/intrinsic.h>
 #include <choir/module.h>
+#include <choir/source.h>
 #include <choir/type.h>
 #include <choir/value.h>
 

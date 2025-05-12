@@ -1,3 +1,6 @@
+#ifndef CHOIR_SOURCE_INTERNAL_H_
+#define CHOIR_SOURCE_INTERNAL_H_
+
 #include <choir/source.h>
 #include "support.h"
 
@@ -20,3 +23,5 @@ struct choir_opaque_source {
 typedef struct choir_source_refs {
     CHOIR_DYNAMIC_ARRAY_FIELDS(choir_source_ref);
 } choir_source_refs;
+
+#endif /* CHOIR_SOURCE_INTERNAL_H_ */
