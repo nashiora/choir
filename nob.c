@@ -76,9 +76,9 @@
 #endif
 
 #if defined(_WIN32)
-#    define nob_lib_so(lib_path) nob_temp_sprintf("%s.so", (lib_path))
-#else
 #    define nob_lib_so(lib_path) nob_temp_sprintf("%s.dll", (lib_path))
+#else
+#    define nob_lib_so(lib_path) nob_temp_sprintf("%s.so", (lib_path))
 #endif
 
 #define NOB_IMPLEMENTATION
