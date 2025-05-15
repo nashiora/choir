@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 #ifdef _MSC_VER
 #  ifdef _WIN64

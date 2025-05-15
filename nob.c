@@ -9,7 +9,7 @@
 #    define nob_cc_flags(cmd) nob_cmd_append((cmd), "-std=c23", "-Wall", "-Wextra", \
          "-Wno-unused", "-Wno-gnu-zero-variadic-macro-arguments", "-Wno-trigraphs", \
          "-Wno-unused-parameter", "-Wno-unused-function", "-Wno-unused-variable",   \
-         "-Werror", "-ggdb", "-Werror=return-type", "-pedantic", "-pedantic-errors", "-fsanitize=address", \
+         "-Werror", "-ggdb", "-Werror=return-type", "-pedantic", "-pedantic-errors", \
          "-D_CRT_SECURE_NO_WARNINGS")
 #endif
 
@@ -45,12 +45,12 @@
 
 #if defined(_MSC_VER)
 #    if defined(__clang__)
-#        define nob_ld_flags(cmd) nob_cmd_append((cmd), "-fsanitize=address")
+#        define nob_ld_flags(cmd)
 #    else
 #        define nob_ld_flags(cmd) nob_cmd_append((cmd), "/nologo")
 #    endif
 #else
-#    define nob_ld_flags(cmd) nob_cmd_append((cmd), "-fsanitize=address")
+#    define nob_ld_flags(cmd)
 #endif
 
 #if defined(_MSC_VER)
@@ -234,10 +234,10 @@ static bool link_exe(const char* exe, Nob_File_Paths* obj_files, Nob_File_Paths*
         if (0 == rebuild_status) nob_return_defer(true);
     }
 
-    nob_ld(&cmd);
-    nob_ld_output(&cmd, exe);
+    nob_cc(&cmd);
+    nob_cc_output(&cmd, exe);
     nob_da_append_many(&cmd, obj_files->items, obj_files->count);
-    nob_ld_flags(&cmd);
+    //nob_ld_flags(&cmd);
 
     if (!nob_cmd_run_sync(cmd)) {
         nob_return_defer(false);
