@@ -1,9 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE 1
 
-#if defined(CC)
-#    define nob_cc(cmd) nob_cmd_append(cmd, CC)
-#endif
+void nob_cmd_append_cc(Nob_Cmd* cmd);
+#define nob_cc(cmd) nob_cmd_append_cc(cmd)
 
 #if defined(_MSC_VER) && !defined(__clang__)
 #    define nob_cc_flags(...) // TODO: Add MSVC flags.
@@ -90,6 +89,26 @@
 
 #define nob_try(Result, Expr) do { if (!(Expr)) nob_return_defer(Result); } while (0)
 #define nob_try_int(Result, Expr) do { if (0 != (Expr)) nob_return_defer(Result); } while (0)
+
+void nob_cmd_append_cc(Nob_Cmd* cmd) {
+    char* cc = getenv("NOB_CC");
+    if (cc != NULL) {
+        nob_cmd_append(cmd, cc);
+        return;
+    }
+
+#if _WIN32
+#  if defined(__GNUC__)
+    nob_cmd_append(cmd, "cc");
+#  elif defined(__clang__)
+    nob_cmd_append(cmd, "clang");
+#  elif defined(_MSC_VER)
+    nob_cmd_append(cmd, "cl.exe");
+#  endif
+#else
+    nob_cmd_append(cmd, "cc");
+#endif
+}
 
 static Nob_String_View nob_sv_file_name(Nob_String_View path) {
     size_t begin = path.count - 1;
