@@ -1,6 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE 1
 
+#if defined(CC)
+#    define nob_cc(cmd) nob_cmd_append(cmd, CC)
+#endif
+
 #if defined(_MSC_VER) && !defined(__clang__)
 #    define nob_cc_flags(...) // TODO: Add MSVC flags.
 #else
